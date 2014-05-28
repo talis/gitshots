@@ -189,7 +189,7 @@ def put_commit(gitshot_id):
     gitshot.update(data)
 
     result = mongo.db.gitshots.save(gitshot)
-    send_to_babel(result,data)
+    send_to_babel(result, data)
 
     return str(result)
 
