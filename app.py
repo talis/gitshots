@@ -191,7 +191,7 @@ def github_project(user, project):
     return render_template('project.html', gitshots=ret)
 
 
-@app.route('/users/<user>')
+@app.route('/<user>/')
 @requires_auth
 def user_profile(user):
     limit = int(request.args.get('limit', 10))
