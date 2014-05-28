@@ -25,6 +25,13 @@ from PIL import ImageFile
 # we have to set a larger block size for images
 ImageFile.MAXBLOCK = 1920*1080
 
+import json
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
 
 def request_wants_json():
     jsonstr = 'application/json'
@@ -204,7 +211,7 @@ def gitshot_project_json(project):
         {'project': project}, {'img': False}
     ).limit(limit).sort(sort, -1)
 
-    return jsonify(items=[list(gitshots)])
+    return JSONEncoder().encode(items=[list(gitshots)])
 
 
 @app.route('/gs/<project>.avi')
