@@ -95,7 +95,13 @@ def get_oauth_token():
         auth=(app.config['OAUTH_CLIENT_ID'],'OAUTH_CLIENT_SECRET')
     )
     print "Get on OAuth token resulted in: ",result.status_code
-    return result.access_token
+    if (result.status_code == 200):
+        json = result.json()
+        return json.access_token
+    else:
+        print "Something went wrong: "+result.text
+        return None
+
 
 
 def send_to_babel(result):
