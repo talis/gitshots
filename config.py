@@ -15,6 +15,6 @@ AUTH_USERNAME = os.environ.get('AUTH_USERNAME', None)
 AUTH_PASSWORD = os.environ.get('AUTH_PASSWORD', None)
 
 CACHE_TYPE = 'filesystem'
-CACHE_DIR = 'cache'
+CACHE_DIR = 'static/imgs'
 
-MAX_CONTENT_LENGTH = 4 * 1024 * 1024  # No more than 10MB per file
+MAX_CONTENT_LENGTH = 4 * 1024 * 1024  # No more than 10MB per file system
