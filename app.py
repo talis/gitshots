@@ -200,7 +200,7 @@ def gitshot_project(project):
 @requires_auth
 def gitshot_project_avi(project):
     images = mongo.db.gitshots.find({'project': project, 'img': {'$exists': True}})
-    return render_video(images, user, "avi")
+    return render_video(images, project, "avi")
 
 
 
