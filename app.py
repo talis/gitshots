@@ -41,8 +41,27 @@ mongo = PyMongo(app)
 
 _paragraph_re = re.compile(r'(?:\r\n|\r|\n){2,}')
 
+
 def ffmpeg(extension):
     return "ffmpeg -y -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -qscale 5 -r {0} {1}."+extension
+
+
+def render_video(user, extension):
+    images = mongo.db.gitshots.find({'user': user, 'img': {'$exists': True}})
+    if images.count() <= 10:
+        frames = 2
+    elif images.count() < 100:
+        frames = 15
+    else:
+        frames = 24
+    cmd = ffmpeg(extension).format(frames, user)
+    p = Popen(cmd.split(), stdin=PIPE)
+    for image in images:
+        p.stdin.write(image['img'])
+    p.stdin.close()
+    p.wait()
+    return send_file(open(user+'.'+extension), as_attachment=True)
+
 
 def check_auth(username, password):
     return (username == app.config['AUTH_USERNAME'] and
@@ -216,24 +235,10 @@ def user_profile(user):
     return render_template('user.html', gitshots=ret)
 
 
-@app.route('/<user>.<extension>')
+@app.route('/<user>.avi')
 @requires_auth
-def render_video(user, extension):
-    images = mongo.db.gitshots.find({'user': user, 'img': {'$exists': True}})
-    if images.count() <= 10:
-        frames = 2
-    elif images.count() < 100:
-        frames = 15
-    else:
-        frames = 24
-    cmd = ffmpeg(extension).format(frames, user)
-    p = Popen(cmd.split(), stdin=PIPE)
-    for image in images:
-        p.stdin.write(image['img'])
-    p.stdin.close()
-    p.wait()
-    return send_file(open(user+'.'+extension), as_attachment=True)
-
+def render_avi(user):
+    return render_video(user, "avi")
 
 @app.route('/')
 @requires_auth
