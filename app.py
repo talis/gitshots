@@ -99,7 +99,7 @@ def get_oauth_token():
         json = result.json()
         return json.access_token
     else:
-        print "Something went wrong: "+result.text
+        print "Something went wrong whilst getting OAuth token: "+result.text
         return None
 
 
