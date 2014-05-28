@@ -11,7 +11,7 @@ curl https://raw.githubusercontent.com/talis/gitshots/master/post-commit.py > ~/
 echo "Creating post-commit hook"
 cat << EOF > ~/.git_template/hooks/post-commit
 #!/bin/sh
-/usr/bin/python2.7 ~/bin/post-commit.py
+/opt/local/bin/python2.7 ~/bin/post-commit.py
 EOF
 chmod +x ~/.git_template/hooks/post-commit
 echo "Installing requests dependency, if this fails fix your python or use sudo"
