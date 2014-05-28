@@ -113,9 +113,9 @@ def send_to_babel(id,data):
             "type": "Gitshot",
             "details": {
                 "msg": data['msg'],
-                "user":data['user'],
-                "project":data['project'],
-                "branch":data['branch']
+                "user": data['user'],
+                "project": data['project'],
+                "branch": data['branch']
             },
             "uri": 'http://talis-gitshots.herokuapp.com/'+str(id)+'.jpg'
         },
@@ -123,7 +123,7 @@ def send_to_babel(id,data):
             "uri": "http://github.com/talis"},
         "annotatedBy": app.config['OAUTH_CLIENT_ID']
     }
-    headers = {'Content-Type': 'application/json', 'Authentication': 'Bearer '+token}
+    headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+token}
 
     post_result = requests.post(
         app.config['BABEL_ENDPOINT'] + '/annotations',
