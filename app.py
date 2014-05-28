@@ -46,8 +46,12 @@ def ffmpeg(extension):
     return "ffmpeg -y -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -qscale 5 -r {0} {1}."+extension
 
 
-def render_video(user, extension):
+def render_video_user(user, extension):
     images = mongo.db.gitshots.find({'user': user, 'img': {'$exists': True}})
+    return render_video(images, user, extension)
+
+
+def render_video(images, filename, extension):
     if images.count() <= 10:
         frames = 2
     elif images.count() < 100:
@@ -60,7 +64,7 @@ def render_video(user, extension):
         p.stdin.write(image['img'])
     p.stdin.close()
     p.wait()
-    return send_file(open(user+'.'+extension), as_attachment=True)
+    return send_file(open(filename+'.'+extension), as_attachment=True)
 
 
 def check_auth(username, password):
@@ -192,6 +196,8 @@ def gitshot_project(project):
     return render_template('project.html', gitshots=ret)
 
 
+
+
 @app.route('/<user>/<project>/commits')
 @requires_auth
 def github_project(user, project):
@@ -238,13 +244,13 @@ def user_profile(user):
 @app.route('/<user>.avi')
 @requires_auth
 def render_avi(user):
-    return render_video(user, "avi")
+    return render_video_user(user, "avi")
 
 
 @app.route('/<user>.mp4')
 @requires_auth
 def render_mp4(user):
-    return render_video(user, "mp4")
+    return render_video_user(user, "mp4")
 
 
 @app.route('/')
