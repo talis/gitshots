@@ -82,7 +82,16 @@ def authenticate():
         {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
 def get_oauth_token():
-    return "";
+    payload = {
+        "grant_type": "client_credentials"
+    }
+    result = requests.post(
+        app.config['OAUTH_ENDPOINT'],
+        data=payload,
+        auth=(app.config['OAUTH_CLIENT_ID'],'OAUTH_CLIENT_SECRET')
+    )
+    print "Get on OAuth token resulted in: "+jsonify(result)
+    return result.access_token
 
 def send_to_babel(result):
     token = get_oauth_token()
