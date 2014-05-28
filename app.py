@@ -195,6 +195,17 @@ def gitshot_project(project):
         ret[gitshot['project']].append(gitshot)
     return render_template('project.html', gitshots=ret)
 
+@app.route('/gs/<project>.json')
+@requires_auth
+def gitshot_project_json(project):
+    limit = int(request.args.get('limit', 100))
+    sort = request.args.get('sort', 'ts')
+    gitshots = mongo.db.gitshots.find(
+        {'project': project}, {'img': False}
+    ).limit(limit).sort(sort, -1)
+
+    return jsonify(items=[list(gitshots)])
+
 
 @app.route('/gs/<project>.avi')
 @requires_auth
