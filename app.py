@@ -2,7 +2,6 @@ import cStringIO
 import re
 import requests
 import json
-import logging
 
 from subprocess import Popen, PIPE
 from datetime import datetime
@@ -95,12 +94,12 @@ def get_oauth_token():
         data=payload,
         auth=(app.config['OAUTH_CLIENT_ID'],'OAUTH_CLIENT_SECRET')
     )
-    print "Get on OAuth token resulted in: "+jsonify(result)
+    print "Get on OAuth token resulted in: "+result.status_code
     return result.access_token
 
 
 def send_to_babel(result):
-    logging.debug("Sending to babel")
+    print "Sending to babel"
 
     token = get_oauth_token()
     payload = {
@@ -178,16 +177,11 @@ def post_commit(gitshot_id):
 
 @app.route('/put_commit/<ObjectId:gitshot_id>', methods=['PUT'])
 def put_commit(gitshot_id):
-    logging.debug("PUT commit")
-    print "put commit"
-
     data = loads(request.data)
     data['ts'] = datetime.fromtimestamp(data['ts'])
     gitshot = mongo.db.gitshots.find_one_or_404(gitshot_id)
     gitshot.update(data)
 
-    print "Now sending to babel..."
-    logging.debug("Sending to babel")
     result = mongo.db.gitshots.save(gitshot)
     send_to_babel(result)
 
