@@ -120,7 +120,7 @@ def send_to_babel(result):
         data=json.dumps(payload),
         headers=headers
     )
-    print result.status_code
+    print "Saving an annotation resulted in: "+result.status_code
 
 
 def requires_auth(f):
