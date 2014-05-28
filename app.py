@@ -92,10 +92,10 @@ def get_oauth_token():
     result = requests.post(
         app.config['OAUTH_ENDPOINT'],
         data=payload,
-        auth=(app.config['OAUTH_CLIENT_ID'],app.config['OAUTH_CLIENT_SECRET'])
+        auth=(app.config['OAUTH_CLIENT_ID'], app.config['OAUTH_CLIENT_SECRET'])
     )
-    print "Get on OAuth token resulted in: ",result.status_code
-    if (result.status_code == 200):
+    print "Get on OAuth token resulted in: ", result.status_code
+    if result.status_code == 200:
         json = result.json()
         return json.access_token
     else:
@@ -103,8 +103,7 @@ def get_oauth_token():
         return None
 
 
-
-def send_to_babel(result):
+def send_to_babel(data):
     print "Attempting to save annotation"
 
     token = get_oauth_token()
@@ -112,8 +111,8 @@ def send_to_babel(result):
         "hasBody": {
             "format": "image/jpeg",
             "type": "Gitshot",
-            "details": result,
-            "uri": 'http://talis-gitshots.herokuapp.com/'+str(result._id)+'.jpg'
+            "details": data,
+            "uri": 'http://talis-gitshots.herokuapp.com/'+str(data._id)+'.jpg'
         },
         "hasTarget": {
             "uri": "http://github.com/talis"},
@@ -121,12 +120,13 @@ def send_to_babel(result):
     }
     headers = {'content-type': 'application/json', 'Authentication': 'Bearer '+token}
 
-    result = requests.post(
+    post_result = requests.post(
         app.config['BABEL_ENDPOINT'] + '/annotations',
         data=json.dumps(payload),
         headers=headers
     )
-    print "Saving an annotation resulted in: ",result.status_code
+    print "Saving an annotation resulted in: ", post_result.status_code
+    print "...with output: "+post_result.text
 
 
 def requires_auth(f):
@@ -177,7 +177,7 @@ def post_commit(gitshot_id):
     result = mongo.db.gitshots.save(data)
 
     print "Now sending to babel..."
-    send_to_babel(result)
+    send_to_babel(data)
     return str(result)
 
 
