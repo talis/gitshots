@@ -99,6 +99,8 @@ def get_oauth_token():
 
 
 def send_to_babel(result):
+    print "Sending to babel"
+    
     token = get_oauth_token()
     payload = {
         "hasBody": {
