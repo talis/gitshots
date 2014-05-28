@@ -40,8 +40,9 @@ cache = Cache(app)
 mongo = PyMongo(app)
 
 _paragraph_re = re.compile(r'(?:\r\n|\r|\n){2,}')
-FFMPEG = "ffmpeg -y -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -qscale 5 -r {0} {1}.avi"
 
+def ffmpeg(extension):
+    return "ffmpeg -y -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -qscale 5 -r {0} {1}.extension"
 
 def check_auth(username, password):
     return (username == app.config['AUTH_USERNAME'] and
@@ -225,7 +226,7 @@ def render_video(user):
         frames = 15
     else:
         frames = 24
-    cmd = FFMPEG.format(frames, user)
+    cmd = ffmpeg('avi').format(frames, user)
     p = Popen(cmd.split(), stdin=PIPE)
     for image in images:
         p.stdin.write(image['img'])
