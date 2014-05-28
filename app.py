@@ -114,7 +114,7 @@ def send_to_babel(result):
     headers = {'content-type': 'application/json', 'Authentication': 'Bearer '+token}
 
     result = requests.post(
-        app.config['AUTH_USERNAME'] + '/annotations',
+        app.config['BABEL_ENDPOINT'] + '/annotations',
         data=json.dumps(payload),
         headers=headers
     )
