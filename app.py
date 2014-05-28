@@ -194,25 +194,26 @@ def github_project(user, project):
 @app.route('/<user>')
 @requires_auth
 def user_profile(user):
-    limit = int(request.args.get('limit', 10))
-    sort = request.args.get('sort', 'ts')
-    projects = mongo.db.gitshots.find({'user': user}).distinct('project')
-    gitshots = []
-    for project in projects:
-        shots = mongo.db.gitshots.find(
-            {'user': user,
-             'project': project},
-            {'img': False}
-        ).limit(limit).sort(sort, -1)
-        gitshots.extend(shots)
-
-    if request_wants_json():
-        return jsonify(items=list(gitshots))
-
-    ret = defaultdict(list)
-    for gitshot in gitshots:
-        ret[gitshot['project']].append(gitshot)
-    return render_template('user.html', gitshots=ret)
+    return render_template('user.html')
+#    limit = int(request.args.get('limit', 10))
+#    sort = request.args.get('sort', 'ts')
+#    projects = mongo.db.gitshots.find({'user': user}).distinct('project')
+#    gitshots = []
+#    for project in projects:
+#        shots = mongo.db.gitshots.find(
+#            {'user': user,
+#             'project': project},
+#            {'img': False}
+#        ).limit(limit).sort(sort, -1)
+#        gitshots.extend(shots)
+#
+#    if request_wants_json():
+#        return jsonify(items=list(gitshots))
+#
+#    ret = defaultdict(list)
+#    for gitshot in gitshots:
+#        ret[gitshot['project']].append(gitshot)
+#    return render_template('user.html', gitshots=ret)
 
 
 @app.route('/<user>.avi')
