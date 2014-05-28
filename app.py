@@ -113,9 +113,9 @@ def send_to_babel(id,data):
             "type": "Gitshot",
             "details": {
                 "msg": data['msg'],
-                "user":data['user'],
-                "project":data['project'],
-                "branch":data['branch']
+                "user": data['user'],
+                "project": data['project'],
+                "branch": data['branch']
             },
             "uri": 'http://talis-gitshots.herokuapp.com/'+str(id)+'.jpg'
         },
