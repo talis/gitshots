@@ -178,6 +178,9 @@ def post_commit(gitshot_id):
 
 @app.route('/put_commit/<ObjectId:gitshot_id>', methods=['PUT'])
 def put_commit(gitshot_id):
+    logger.debug("PUT commit");
+    print "put commit";
+    
     data = loads(request.data)
     data['ts'] = datetime.fromtimestamp(data['ts'])
     gitshot = mongo.db.gitshots.find_one_or_404(gitshot_id)
