@@ -94,7 +94,7 @@ def get_oauth_token():
         data=payload,
         auth=(app.config['OAUTH_CLIENT_ID'],'OAUTH_CLIENT_SECRET')
     )
-    print "Get on OAuth token resulted in: "+result.status_code
+    print "Get on OAuth token resulted in: ",result.status_code
     return result.access_token
 
 
@@ -120,7 +120,7 @@ def send_to_babel(result):
         data=json.dumps(payload),
         headers=headers
     )
-    print result.status_code
+    print "Saving an annotation resulted in: ",result.status_code
 
 
 def requires_auth(f):
