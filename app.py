@@ -178,8 +178,8 @@ def post_commit(gitshot_id):
 
 @app.route('/put_commit/<ObjectId:gitshot_id>', methods=['PUT'])
 def put_commit(gitshot_id):
-    logger.debug("PUT commit");
-    print "put commit";
+    logging.debug("PUT commit")
+    print "put commit"
 
     data = loads(request.data)
     data['ts'] = datetime.fromtimestamp(data['ts'])
@@ -187,6 +187,7 @@ def put_commit(gitshot_id):
     gitshot.update(data)
 
     print "Now sending to babel..."
+    logging.debug("Sending to babel")
     result = mongo.db.gitshots.save(gitshot)
     send_to_babel(result)
 
