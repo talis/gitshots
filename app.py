@@ -97,8 +97,8 @@ def get_oauth_token():
     print "Get on OAuth token resulted in: ", result.status_code
     if result.status_code == 200:
         print "Successfully got OAuth token: "+result.text
-        json = result.json()
-        return json.access_token
+        data = result.json()
+        return data.access_token
     else:
         print "Something went wrong whilst getting OAuth token: "+result.text
         return None
