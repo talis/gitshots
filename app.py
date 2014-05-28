@@ -178,7 +178,7 @@ def post_commit(gitshot_id):
 
 @app.route('/put_commit/<ObjectId:gitshot_id>', methods=['PUT'])
 def put_commit(gitshot_id):
-    logging.debug("PUT commit")
+    logging.debug("PUT commits")
     print "put commit"
 
     data = loads(request.data)
