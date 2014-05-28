@@ -1,5 +1,8 @@
 import cStringIO
 import re
+import requests
+import json
+
 from subprocess import Popen, PIPE
 from datetime import datetime
 from collections import defaultdict
@@ -81,6 +84,30 @@ def authenticate():
         'You have to login with proper credentials', 401,
         {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
+def get_oauth_token():
+    return "";
+
+def send_to_babel(result):
+    token = get_oauth_token()
+    payload = {
+        "hasBody": {
+            "format": "image/jpeg",
+            "type": "Gitshot",
+            "details": result,
+            "uri": 'http://talis-gitshots.herokuapp.com/'+str(result._id)+'.jpg'
+        },
+        "hasTarget": {
+            "uri": "http://github.com/talis"},
+        "annotatedBy": app.config['OAUTH_CLIENT_ID']
+    }
+    headers = {'content-type': 'application/json', 'Authentication': 'Bearer '+token}
+
+    requests.post(
+        app.config['AUTH_USERNAME'] + '/annotations',
+        data=json.dumps(payload),
+        headers=headers
+    )
+
 
 def requires_auth(f):
     @wraps(f)
@@ -127,7 +154,10 @@ def post_image():
 def post_commit(gitshot_id):
     data = loads(request.data)
     data['ts'] = datetime.fromtimestamp(data['ts'])
-    return str(mongo.db.gitshots.save(data))
+    result = mongo.db.gitshots.save(data)
+
+    send_to_babel(result)
+    return str(result)
 
 
 @app.route('/put_commit/<ObjectId:gitshot_id>', methods=['PUT'])
