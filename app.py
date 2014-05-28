@@ -104,7 +104,7 @@ def get_oauth_token():
 
 
 def send_to_babel(data):
-    print "Attempting to save annotation with data:"+str(data)
+    print "Attempting to save annotation with data: "+str(data)
 
     token = get_oauth_token()
     payload = {
