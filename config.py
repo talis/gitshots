@@ -18,6 +18,8 @@ OAUTH_ENDPOINT = os.environ.get('OAUTH_ENDPOINT','https://users.talis.com/oauth/
 OAUTH_CLIENT_ID = os.environ.get('OAUTH_CLIENT_ID', None)
 OAUTH_CLIENT_SECRET = os.environ.get('OAUTH_CLIENT_SECRET', None)
 
+BABEL_ENDPOINT = os.environ.get('BABEL_ENDPOINT', 'https://feeds.talis.com')
+
 CACHE_TYPE = 'filesystem'
 CACHE_DIR = 'static/imgs'
 
