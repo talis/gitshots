@@ -25,6 +25,9 @@ from bson import binary, ObjectId
 from PIL import Image
 from PIL import ImageFile
 
+from bson import json_util
+import json
+
 # we have to set a larger block size for images
 ImageFile.MAXBLOCK = 1920*1080
 
@@ -243,8 +246,7 @@ def gitshot_project_json(project):
         {'project': project}, {'img': False}
     ).limit(limit).sort(sort, -1)
 
-    return jsonify(items=[list(gitshots)])
-
+    return json.dumps(list(gitshots), default=json_util.default)
 
 @app.route('/gs/<project>.avi')
 @requires_auth
