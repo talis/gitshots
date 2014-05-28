@@ -2,6 +2,7 @@ import cStringIO
 import re
 import requests
 import json
+import logging
 
 from subprocess import Popen, PIPE
 from datetime import datetime
@@ -99,8 +100,8 @@ def get_oauth_token():
 
 
 def send_to_babel(result):
-    print "Sending to babel"
-    
+    logging.debug("Sending to babel")
+
     token = get_oauth_token()
     payload = {
         "hasBody": {
