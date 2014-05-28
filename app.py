@@ -216,9 +216,9 @@ def user_profile(user):
     return render_template('user.html', gitshots=ret)
 
 
-@app.route('/<user>.avi')
+@app.route('/<user>.<extension>')
 @requires_auth
-def render_video(user):
+def render_video(user, extension):
     images = mongo.db.gitshots.find({'user': user, 'img': {'$exists': True}})
     if images.count() <= 10:
         frames = 2
@@ -226,13 +226,13 @@ def render_video(user):
         frames = 15
     else:
         frames = 24
-    cmd = ffmpeg('avi').format(frames, user)
+    cmd = ffmpeg(extension).format(frames, user)
     p = Popen(cmd.split(), stdin=PIPE)
     for image in images:
         p.stdin.write(image['img'])
     p.stdin.close()
     p.wait()
-    return send_file(open(user+'.avi'), as_attachment=True)
+    return send_file(open(user+'.'+extension), as_attachment=True)
 
 
 @app.route('/')
