@@ -207,7 +207,7 @@ def gitshot_project_json(project):
         {'project': project}, {'img': False}
     ).limit(limit).sort(sort, -1)
 
-    return json.dumps([list(gitshots)], default=json_util.default)
+    return json.dumps(list(gitshots), default=json_util.default)
 
 @app.route('/gs/<project>.avi')
 @requires_auth
