@@ -58,7 +58,7 @@ def render_video(images, filename, extension):
         frames = 15
     else:
         frames = 24
-    cmd = ffmpeg(extension).format(frames, user)
+    cmd = ffmpeg(extension).format(frames, filename)
     p = Popen(cmd.split(), stdin=PIPE)
     for image in images:
         p.stdin.write(image['img'])
