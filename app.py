@@ -203,6 +203,13 @@ def gitshot_project_avi(project):
     return render_video(images, project, "avi")
 
 
+@app.route('/gs/<project>.mp4')
+@requires_auth
+def gitshot_project_mp4(project):
+    images = mongo.db.gitshots.find({'project': project, 'img': {'$exists': True}})
+    return render_video(images, project, "mp4")
+
+
 @app.route('/<user>/<project>/commits')
 @requires_auth
 def github_project(user, project):
