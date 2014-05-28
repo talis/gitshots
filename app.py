@@ -111,7 +111,12 @@ def send_to_babel(id,data):
         "hasBody": {
             "format": "image/jpeg",
             "type": "Gitshot",
-            "details": data,
+            "details": {
+                "msg": data['msg'],
+                "user":data['user'],
+                "project":data['project'],
+                "branch":data['branch']
+            },
             "uri": 'http://talis-gitshots.herokuapp.com/'+str(id)+'.jpg'
         },
         "hasTarget": {
@@ -189,7 +194,7 @@ def put_commit(gitshot_id):
     gitshot.update(data)
 
     result = mongo.db.gitshots.save(gitshot)
-    send_to_babel(result,data)
+    send_to_babel(result, data)
 
     return str(result)
 
