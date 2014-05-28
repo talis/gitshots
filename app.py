@@ -42,7 +42,7 @@ mongo = PyMongo(app)
 _paragraph_re = re.compile(r'(?:\r\n|\r|\n){2,}')
 
 def ffmpeg(extension):
-    return "ffmpeg -y -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -qscale 5 -r {0} {1}.extension"
+    return "ffmpeg -y -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -qscale 5 -r {0} {1}."+extension
 
 def check_auth(username, password):
     return (username == app.config['AUTH_USERNAME'] and
