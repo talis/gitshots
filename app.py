@@ -103,8 +103,8 @@ def get_oauth_token():
         return None
 
 
-def send_to_babel(data):
-    print "Attempting to save annotation with data:"+str(data)
+def send_to_babel(id,data):
+    print "Attempting to save annotation with data: "+str(data)
 
     token = get_oauth_token()
     payload = {
@@ -112,7 +112,7 @@ def send_to_babel(data):
             "format": "image/jpeg",
             "type": "Gitshot",
             "details": data,
-            "uri": 'http://talis-gitshots.herokuapp.com/'+str(data._id)+'.jpg'
+            "uri": 'http://talis-gitshots.herokuapp.com/'+str(id)+'.jpg'
         },
         "hasTarget": {
             "uri": "http://github.com/talis"},
@@ -177,7 +177,7 @@ def post_commit(gitshot_id):
     result = mongo.db.gitshots.save(data)
 
     print "Now sending to babel..."
-    send_to_babel(data)
+    send_to_babel(result,data)
     return str(result)
 
 
@@ -189,7 +189,7 @@ def put_commit(gitshot_id):
     gitshot.update(data)
 
     result = mongo.db.gitshots.save(gitshot)
-    send_to_babel(data)
+    send_to_babel(result,data)
 
     return str(result)
 
