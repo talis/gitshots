@@ -210,7 +210,7 @@ def gitshot_project_json(project):
         {'project': project}, {'img': False}
     ).limit(limit).sort(sort, -1)
 
-    return JSONEncoder().encode(items=[list(gitshots)])
+    return JSONEncoder().encode([list(gitshots)])
 
 
 @app.route('/gs/<project>.avi')
