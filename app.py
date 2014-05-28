@@ -180,12 +180,17 @@ def post_commit(gitshot_id):
 def put_commit(gitshot_id):
     logger.debug("PUT commit");
     print "put commit";
-    
+
     data = loads(request.data)
     data['ts'] = datetime.fromtimestamp(data['ts'])
     gitshot = mongo.db.gitshots.find_one_or_404(gitshot_id)
     gitshot.update(data)
-    return str(mongo.db.gitshots.save(gitshot))
+
+    print "Now sending to babel..."
+    result = mongo.db.gitshots.save(gitshot)
+    send_to_babel(result)
+
+    return str(result)
 
 
 @app.route('/install')
