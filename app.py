@@ -104,7 +104,7 @@ def get_oauth_token():
 
 
 def send_to_babel(data):
-    print "Attempting to save annotation"
+    print "Attempting to save annotation with data:"+str(data)
 
     token = get_oauth_token()
     payload = {
@@ -118,7 +118,7 @@ def send_to_babel(data):
             "uri": "http://github.com/talis"},
         "annotatedBy": app.config['OAUTH_CLIENT_ID']
     }
-    headers = {'content-type': 'application/json', 'Authentication': 'Bearer '+token}
+    headers = {'Content-Type': 'application/json', 'Authentication': 'Bearer '+token}
 
     post_result = requests.post(
         app.config['BABEL_ENDPOINT'] + '/annotations',
@@ -189,7 +189,7 @@ def put_commit(gitshot_id):
     gitshot.update(data)
 
     result = mongo.db.gitshots.save(gitshot)
-    send_to_babel(result)
+    send_to_babel(data)
 
     return str(result)
 
