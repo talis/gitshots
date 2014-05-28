@@ -240,6 +240,13 @@ def user_profile(user):
 def render_avi(user):
     return render_video(user, "avi")
 
+
+@app.route('/<user>.mp4')
+@requires_auth
+def render_mp4(user):
+    return render_video(user, "mp4")
+
+
 @app.route('/')
 @requires_auth
 @cache.memoize(300)  # cache for five minutes
