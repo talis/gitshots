@@ -84,6 +84,7 @@ def authenticate():
         'You have to login with proper credentials', 401,
         {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
+
 def get_oauth_token():
     payload = {
         "grant_type": "client_credentials"
@@ -95,6 +96,7 @@ def get_oauth_token():
     )
     print "Get on OAuth token resulted in: "+jsonify(result)
     return result.access_token
+
 
 def send_to_babel(result):
     token = get_oauth_token()
@@ -111,11 +113,12 @@ def send_to_babel(result):
     }
     headers = {'content-type': 'application/json', 'Authentication': 'Bearer '+token}
 
-    requests.post(
+    result = requests.post(
         app.config['AUTH_USERNAME'] + '/annotations',
         data=json.dumps(payload),
         headers=headers
     )
+    print result.status_code
 
 
 def requires_auth(f):
@@ -165,6 +168,7 @@ def post_commit(gitshot_id):
     data['ts'] = datetime.fromtimestamp(data['ts'])
     result = mongo.db.gitshots.save(data)
 
+    print "Now sending to babel..."
     send_to_babel(result)
     return str(result)
 
