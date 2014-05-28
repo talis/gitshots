@@ -1,3 +1,4 @@
+import json
 import cStringIO
 import re
 from subprocess import Popen, PIPE
@@ -24,8 +25,6 @@ from PIL import ImageFile
 
 # we have to set a larger block size for images
 ImageFile.MAXBLOCK = 1920*1080
-
-import json
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
