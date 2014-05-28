@@ -99,7 +99,7 @@ def get_oauth_token():
 
 
 def send_to_babel(result):
-    print "Sending to babel"
+    print "Attempting to save annotation"
 
     token = get_oauth_token()
     payload = {
