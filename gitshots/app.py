@@ -52,6 +52,7 @@ ImageFile.MAXBLOCK = 1920*1080
 
 app = Flask(__name__)
 app.config.from_object('config')
+
 cache = Cache(app)
 mongo = PyMongo(app)
 
