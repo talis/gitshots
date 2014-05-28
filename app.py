@@ -118,7 +118,7 @@ def send_to_babel(data):
             "uri": "http://github.com/talis"},
         "annotatedBy": app.config['OAUTH_CLIENT_ID']
     }
-    headers = {'content-type': 'application/json', 'Authentication': 'Bearer '+token}
+    headers = {'Content-Type': 'application/json', 'Authentication': 'Bearer '+token}
 
     post_result = requests.post(
         app.config['BABEL_ENDPOINT'] + '/annotations',
