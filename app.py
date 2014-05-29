@@ -113,7 +113,6 @@ def send_to_babel(id,data):
             "type": "Gitshot",
             "details": {
                 "msg": data['msg'],
-                "user": data['user'],
                 "project": data['project'],
                 "branch": data['branch']
             },
@@ -121,7 +120,7 @@ def send_to_babel(id,data):
         },
         "hasTarget": {
             "uri": "http://github.com/talis"},
-        "annotatedBy": app.config['OAUTH_CLIENT_ID']
+        "annotatedBy": data['user']
     }
     headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+token}
 
